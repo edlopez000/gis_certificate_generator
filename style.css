@@ -1,0 +1,9 @@
+h1,
+p {
+  text-align: center;
+}
+
+#templateDisplay {
+  display: flex;
+  width: 500px;
+}
