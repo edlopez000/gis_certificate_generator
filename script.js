@@ -1,7 +1,16 @@
 window.addEventListener('load', () => {
+  // Get current date and add it as a max attribute for the date input
+  function setMaxDate() {
+    const dateSelector = document.getElementById('date');
+    const maxDate = new Date().toISOString().split('T')[0];
+    dateSelector.setAttribute('value', maxDate);
+    dateSelector.setAttribute('max', maxDate);
+  }
+
+  setMaxDate();
+
   // Found some code on stackoverflow about how HTML5 and Canvas
   // Came before high pixel density displays
-
   function createHiPPICanvas(w, h) {
     const ratio = window.devicePixelRatio;
     const cv = document.createElement('canvas');
