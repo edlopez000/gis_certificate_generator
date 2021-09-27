@@ -1,13 +1,13 @@
 window.addEventListener('load', () => {
   // Get current date and add it as a max attribute for the date input
-  function setMaxDate() {
+  function setDate() {
     const dateSelector = document.getElementById('date');
     const maxDate = new Date().toISOString().split('T')[0];
     dateSelector.setAttribute('value', maxDate);
     dateSelector.setAttribute('max', maxDate);
   }
 
-  setMaxDate();
+  setDate();
 
   // Found some code on stackoverflow about how HTML5 and Canvas
   // Came before high pixel density displays
@@ -62,8 +62,9 @@ window.addEventListener('load', () => {
     link.click();
   }
 
-  const form = document.querySelector('form');
-  form.addEventListener('submit', () => {
+  // Download button
+  const downloadButton = document.getElementById('download');
+  downloadButton.addEventListener('click', () => {
     // eslint-disable-next-line no-restricted-globals
     event.preventDefault();
 
@@ -79,9 +80,5 @@ window.addEventListener('load', () => {
     writeDate(dateValue);
 
     downloadCanvas(canvas, nameValue);
-
-    // const finalProduct = document
-    //   .getElementById('completedImage')
-    //   .appendChild(canvas);
   });
 });
