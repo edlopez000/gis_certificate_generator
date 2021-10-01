@@ -9,6 +9,12 @@ window.addEventListener('load', () => {
 
   setDate();
 
+  // Load full image to get processed
+  // This will be inside the function to edit picture on submit button action
+  const fullIMG = new Image();
+  // fullIMG.src = 'template.png';
+  fullIMG.src = '/template_w_sig.png';
+
   // Found some code on stackoverflow about how HTML5 and Canvas
   // Came before high pixel density displays
   function createHiPPICanvas(w, h) {
@@ -21,12 +27,6 @@ window.addEventListener('load', () => {
     cv.getContext('2d').scale(ratio, ratio);
     return cv;
   }
-
-  // Load full image to get processed
-  // This will be inside the function to edit picture on submit button action
-  const fullIMG = new Image();
-  // fullIMG.src = 'template.png';
-  fullIMG.src = '/template_w_sig.png';
 
   // Creates the context for the canvas
   const canvas = createHiPPICanvas(fullIMG.width, fullIMG.height);
@@ -60,7 +60,6 @@ window.addEventListener('load', () => {
     const name = nameVar.split(' ').join('_');
     link.download = `${name}_GIS_Certificate.png`;
     link.href = canvasObj.toDataURL();
-    console.log(canvasObj.toDataURL());
     link.click();
   }
 
