@@ -13,7 +13,7 @@ window.addEventListener('load', () => {
   // This will be inside the function to edit picture on submit button action
   const fullIMG = new Image();
   // fullIMG.src = 'template.png';
-  fullIMG.src = '/template_w_sig.png';
+  fullIMG.src = 'template_w_sig.png';
 
   // Found some code on stackoverflow about how HTML5 and Canvas
   // Came before high pixel density displays
@@ -60,6 +60,7 @@ window.addEventListener('load', () => {
     const name = nameVar.split(' ').join('_');
     link.download = `${name}_GIS_Certificate.png`;
     link.href = canvasObj.toDataURL();
+    console.log(canvasObj.toDataURL());
     link.click();
   }
 
