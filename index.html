@@ -4,8 +4,9 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="normalize.css" />
+    <link rel="stylesheet" href="bootstrap.min.css" />
     <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"></script>
     <script src="script.js"></script>
     <title>Hopeworks GIS Certificate Generator</title>
   </head>
@@ -16,7 +17,7 @@
       id="wallpaper"
     /> -->
   </header>
-  <body>
+  <body class="container">
     <h1>Welcome to the GIS Certificate Generator!</h1>
     <p>
       This is a tool that helps you create a certificate of completion for the
@@ -31,6 +32,7 @@
       <button id="download" type="submit">Download</button>
     </form>
     <img
+      class="img-fluid"
       src="template.png"
       alt="Image of the certificate template"
       id="templateDisplay"
@@ -39,7 +41,7 @@
     <footer>
       <p>
         This is the footer! It will hopefully will have all the information
-        needed like copyright and links to my github and linkedin
+        needed like copyright and links to my github and linkedin.
       </p>
     </footer>
   </body>
