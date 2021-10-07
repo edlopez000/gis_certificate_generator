@@ -28,12 +28,13 @@ window.addEventListener('load', () => {
   fullIMG.src = 'template_w_sig.png';
 
   // DataURL issue could be an out of order execution issue
+  // Confirmed: I wasn't waiting for the fullIMG to load before operating on it through canvas, etc
   fullIMG.onload = () => {
     // Creates the context for the canvas
     const canvas = createHiPPICanvas(fullIMG.width, fullIMG.height);
-    console.log(canvas);
+    // console.log(canvas);
     const ctx = canvas.getContext('2d');
-    console.log(ctx);
+    // console.log(ctx);
 
     // Populates the canvas with the image and also clears the canvas
     function clearAndDraw() {
@@ -62,13 +63,7 @@ window.addEventListener('load', () => {
       const link = document.createElement('a');
       const name = nameVar.split(' ').join('_');
       link.download = `${name}_GIS_Certificate.png`;
-      // Ignore below
-      // Fix to empty dataURL, ended up being a newline/whitespace issue that trips up base64 data
-      // More info here: https://github.com/joltup/rn-fetch-blob/issues/190
-      // https://stackoverflow.com/questions/22921242/remove-carriage-return-and-space-from-a-string/22921273
-      console.log(canvasObj);
       link.href = canvasObj.toDataURL('image/png').replace(/[\n\r]+/g, '');
-      console.log(canvasObj.toDataURL().replace(/[\n\r]+/g, ''));
       link.click();
     }
 
