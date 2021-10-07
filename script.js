@@ -59,8 +59,10 @@ window.addEventListener('load', () => {
     const link = document.createElement('a');
     const name = nameVar.split(' ').join('_');
     link.download = `${name}_GIS_Certificate.png`;
-    link.href = canvasObj.toDataURL();
-    console.log(canvasObj.toDataURL());
+    // Fix to empty dataURL, ended up being a newline/whitespace issue that trips up base64 data
+    // More info here: https://github.com/joltup/rn-fetch-blob/issues/190
+    link.href = canvasObj.toDataURL().replace(/[\n\r]+/g, '');
+    console.log(link.href);
     link.click();
   }
 
