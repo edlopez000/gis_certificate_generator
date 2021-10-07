@@ -9,12 +9,6 @@ window.addEventListener('load', () => {
 
   setDate();
 
-  // Load full image to get processed
-  // This will be inside the function to edit picture on submit button action
-  const fullIMG = new Image();
-  // fullIMG.src = 'template.png';
-  fullIMG.src = 'template_w_sig.png';
-
   // Found some code on stackoverflow about how HTML5 and Canvas
   // Came before high pixel density displays
   function createHiPPICanvas(w, h) {
@@ -28,62 +22,74 @@ window.addEventListener('load', () => {
     return cv;
   }
 
-  // Creates the context for the canvas
-  const canvas = createHiPPICanvas(fullIMG.width, fullIMG.height);
-  const ctx = canvas.getContext('2d');
+  // Load full image to get processed
+  const fullIMG = new Image();
+  // fullIMG.src = 'template.png';
+  fullIMG.src = 'template_w_sig.png';
 
-  // Populates the canvas with the image and also clears the canvas
-  function clearAndDraw() {
-    ctx.drawImage(fullIMG, 0, 0);
-  }
+  // DataURL issue could be an out of order execution issue
+  fullIMG.onload = () => {
+    // Creates the context for the canvas
+    const canvas = createHiPPICanvas(fullIMG.width, fullIMG.height);
+    console.log(canvas);
+    const ctx = canvas.getContext('2d');
+    console.log(ctx);
 
-  // Sets the canvas font in pixels and the font-family
-  ctx.font = '50px serif';
+    // Populates the canvas with the image and also clears the canvas
+    function clearAndDraw() {
+      ctx.drawImage(fullIMG, 0, 0);
+    }
 
-  function writeName(name) {
-    const NAME_Y_COORDINATE = 750;
-    const nameWidth = ctx.measureText(name).width;
-    const nameCenter = fullIMG.width / 2 - nameWidth / 2;
-    ctx.fillText(name, nameCenter, NAME_Y_COORDINATE);
-  }
+    // Sets the canvas font in pixels and the font-family
+    ctx.font = '50px serif';
 
-  function writeDate(date) {
-    const DATE_X_COORDINATE = 975;
-    const DATE_Y_COORDINATE = 1075;
-    const dateArr = date.split('-');
-    const finalDate = `${dateArr[1]}/${dateArr[2]}/${dateArr[0]}`;
-    ctx.fillText(finalDate, DATE_X_COORDINATE, DATE_Y_COORDINATE);
-  }
+    function writeName(name) {
+      const NAME_Y_COORDINATE = 750;
+      const nameWidth = ctx.measureText(name).width;
+      const nameCenter = fullIMG.width / 2 - nameWidth / 2;
+      ctx.fillText(name, nameCenter, NAME_Y_COORDINATE);
+    }
 
-  function downloadCanvas(canvasObj, nameVar) {
-    const link = document.createElement('a');
-    const name = nameVar.split(' ').join('_');
-    link.download = `${name}_GIS_Certificate.png`;
-    // Fix to empty dataURL, ended up being a newline/whitespace issue that trips up base64 data
-    // More info here: https://github.com/joltup/rn-fetch-blob/issues/190
-    // https://stackoverflow.com/questions/22921242/remove-carriage-return-and-space-from-a-string/22921273
-    link.href = canvasObj.toDataURL().replace(/[\n\r]+/g, '');
-    console.log(canvasObj.toDataURL().replace(/[\n\r]+/g, ''));
-    link.click();
-  }
+    function writeDate(date) {
+      const DATE_X_COORDINATE = 975;
+      const DATE_Y_COORDINATE = 1075;
+      const dateArr = date.split('-');
+      const finalDate = `${dateArr[1]}/${dateArr[2]}/${dateArr[0]}`;
+      ctx.fillText(finalDate, DATE_X_COORDINATE, DATE_Y_COORDINATE);
+    }
 
-  // Download button
-  const downloadButton = document.getElementById('download');
-  downloadButton.addEventListener('click', () => {
-    // eslint-disable-next-line no-restricted-globals
-    event.preventDefault();
+    function downloadCanvas(canvasObj, nameVar) {
+      const link = document.createElement('a');
+      const name = nameVar.split(' ').join('_');
+      link.download = `${name}_GIS_Certificate.png`;
+      // Ignore below
+      // Fix to empty dataURL, ended up being a newline/whitespace issue that trips up base64 data
+      // More info here: https://github.com/joltup/rn-fetch-blob/issues/190
+      // https://stackoverflow.com/questions/22921242/remove-carriage-return-and-space-from-a-string/22921273
+      console.log(canvasObj);
+      link.href = canvasObj.toDataURL('image/png').replace(/[\n\r]+/g, '');
+      console.log(canvasObj.toDataURL().replace(/[\n\r]+/g, ''));
+      link.click();
+    }
 
-    const nameInput = document.querySelector('input[name=nameInput]');
-    const nameValue = nameInput.value;
+    // Download button
+    const downloadButton = document.getElementById('download');
+    downloadButton.addEventListener('click', () => {
+      // eslint-disable-next-line no-restricted-globals
+      event.preventDefault();
 
-    const dateInput = document.querySelector('input[name=dateInput]');
-    const dateValue = dateInput.value;
+      const nameInput = document.querySelector('input[name=nameInput]');
+      const nameValue = nameInput.value;
 
-    clearAndDraw();
+      const dateInput = document.querySelector('input[name=dateInput]');
+      const dateValue = dateInput.value;
 
-    writeName(nameValue);
-    writeDate(dateValue);
+      clearAndDraw();
 
-    downloadCanvas(canvas, nameValue);
-  });
+      writeName(nameValue);
+      writeDate(dateValue);
+
+      downloadCanvas(canvas, nameValue);
+    });
+  };
 });
