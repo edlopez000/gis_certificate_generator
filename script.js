@@ -61,8 +61,9 @@ window.addEventListener('load', () => {
     link.download = `${name}_GIS_Certificate.png`;
     // Fix to empty dataURL, ended up being a newline/whitespace issue that trips up base64 data
     // More info here: https://github.com/joltup/rn-fetch-blob/issues/190
+    // https://stackoverflow.com/questions/22921242/remove-carriage-return-and-space-from-a-string/22921273
     link.href = canvasObj.toDataURL().replace(/[\n\r]+/g, '');
-    console.log(link.href);
+    console.log(canvasObj.toDataURL().replace(/[\n\r]+/g, ''));
     link.click();
   }
 
